@@ -13,6 +13,7 @@ def setup_parser():
     parser.add_argument("year", help="Year of advent of code project", type=int)
     parser.add_argument("question", help="Question # / day #", type=int)
     parser.add_argument("-c", "--conf", help="Configuration file with cookie", default="conf.yml")
+    parser.add_argument("-p", "--part", help="Only execute one part", type=int)
 
     return parser
 
@@ -33,7 +34,7 @@ def main():
 
     with requests.Session() as s:
         requests.utils.add_dict_to_cookiejar(s.cookies, cookie_dict(args.conf))
-        solution_module.show_solution(s)
+        solution_module.show_solution(s, args.part)
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from typing import Set
+from typing import Set, Union
 from streamer import streams
-from ..utils import inject_raw_input, print_return_value
+from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
 
 """
 2020 day 1
@@ -13,9 +13,9 @@ Arnold's difficulty eval:
 
 
 @inject_raw_input(2020, 1)
-def show_solution(raw_input: str):
+def show_solution(raw_input: str, part: Union[int, None]):
     nums = streams.split(raw_input, "\n").map(int).collect_as_set()
-    return solve_part_1(nums), solve_part_2(nums)
+    return get_sub_task_runner(part, solve_part_1, solve_part_2)(nums)
 
 
 @print_return_value
