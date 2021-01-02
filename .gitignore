@@ -1,5 +1,6 @@
-streamer
 .idea
 
 *.pyc
 __pycache__/
+
+conf.yml

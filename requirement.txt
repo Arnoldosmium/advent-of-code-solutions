@@ -1,2 +1,3 @@
-pystreamer
+pystreamer>=0.4.1
 requests
+pyyaml
