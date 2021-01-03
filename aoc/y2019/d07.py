@@ -6,7 +6,7 @@ Arnold's difficulty eval:
 1 - Easy
 2 - Medium
 """
-from itertools import permutations, repeat
+from itertools import permutations
 from typing import List, Union
 from streamer import streams
 from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
