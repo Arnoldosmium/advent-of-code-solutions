@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
+"""
+2019 day 5
+Boring recap: Basic 10-based CPU and RAM simulation with bit extraction and jumps
+Arnold's difficulty eval:
+1 - Easy
+2 - Easy
+"""
 from typing import List, Union
 from streamer import streams
 from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
 from .common import IntCodeRunner
-
-"""
-2019 day 5
-Boring recap: 
-Arnold's difficulty eval:
-1 - 
-2 - 
-"""
 
 
 @inject_raw_input(2019, 5)

@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
+"""
+2019 day 4
+Boring recap: Number digit based calculation
+Arnold's difficulty eval:
+1 - Easy
+2 - Easy
+"""
 from collections import Counter
 from typing import Set, Union
 from streamer import streams, Stream
 from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
-
-"""
-2019 day 4
-Boring recap: 
-Arnold's difficulty eval:
-1 - 
-2 - 
-"""
 
 
 @inject_raw_input(2019, 4)

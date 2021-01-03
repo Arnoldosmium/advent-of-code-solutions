@@ -1,12 +1,86 @@
 # -*- coding: utf-8 -*-
+from collections import defaultdict
 from typing import List
 
 
+class RAM:
+    def __init__(self, payload: List[int]):
+        self.payload = list(payload)
+        self.extension = defaultdict(int)
+
+    def __getitem__(self, key):
+        if isinstance(key, int):
+            if key < len(self.payload):
+                return self.payload[key]
+            else:
+                return self.extension[key]
+        elif isinstance(key, slice):
+            if key.step == 0:
+                raise ValueError("Slice step cannot be 0")
+            step = 1 if key.step is None else key.step
+            if step < 0:
+                return list(reversed(self[key.stop:key.start:-step]))
+            start = key.start if key.start is not None else 0
+            if key.stop is None:
+                raise ValueError("Unlimited RAM need a literal stop index")
+            stop = key.stop
+
+            first_half = []
+            if start < len(self.payload):
+                if stop <= len(self.payload):
+                    return self.payload[start:stop:step]
+                first_half = self.payload[start::step]
+                start = stop + (start - stop) % step
+
+            if start >= stop:
+                return first_half
+
+            return first_half + [self[i] for i in range(start, stop, step)]
+        elif isinstance(key, tuple):
+            return [self[i] for i in key]
+        else:
+            raise ValueError("Unknown RAM address: %s" % key)
+
+    def __setitem__(self, key, value):
+        if isinstance(key, int):
+            if key < len(self.payload):
+                self.payload[key] = value
+            else:
+                self.extension[key] = value
+        elif isinstance(key, slice):
+            if key.step == 0:
+                raise ValueError("Slice step cannot be 0")
+            step = 1 if key.step is None else key.step
+            if step < 0:
+                self[key.stop:key.start:-step] = reversed(value)
+                return
+            start = key.start if key.start is not None else 0
+            if key.stop is None:
+                raise ValueError("Unlimited RAM need a literal stop index")
+            stop = key.stop
+
+            if start >= stop:
+                return
+
+            elem_count = 0
+            if start < len(self.payload):
+                elem_count = (stop - start) // step
+                if stop <= len(self.payload):
+                    self.payload[start:stop:step] = value[:elem_count]
+                start = stop + (start - stop) % step
+
+            for i, address in enumerate(range(start, stop, step)):
+                self[address] = value[i + elem_count]
+        elif isinstance(key, tuple):
+            for k in key:
+                self[k] = value
+        else:
+            raise ValueError("Unknown RAM address: %s" % key)
+
+
 class IntCodeRunner:
-    def __init__(self, payload: List[int], *, extension: int = 0):
-        self.ram = list(payload)
-        if extension > 0:
-            self.ram += [0] * extension
+    def __init__(self, payload: List[int]):
+        self.ram = RAM(payload)
         self.pc = 0     # program counter
         self.rb = 0     # relative base
         self.input_buffer = []

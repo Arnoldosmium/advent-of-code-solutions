@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-from collections import defaultdict, namedtuple
-from typing import List, Union, Dict, Tuple
-from streamer import streams
-from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
-from ..utils.maths import num_in_range
-
 """
 2019 day 3
 Boring recap: Road map intersection detection
@@ -12,6 +6,12 @@ Arnold's difficulty eval:
 1 - Medium
 2 - Medium
 """
+from __future__ import nested_scopes
+from collections import defaultdict, namedtuple
+from typing import List, Union, Dict, Tuple
+from streamer import streams
+from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
+from ..utils.maths import num_in_range
 
 
 class WireCoverage:
