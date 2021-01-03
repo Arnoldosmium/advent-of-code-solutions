@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
+"""
+2019 day 1
+Boring recap: Array traverse and loop
+Arnold's difficulty eval:
+1 - Super easy
+2 - Easy
+"""
 from typing import List, Union
 from streamer import streams
 from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
-
-"""
-2019 day 1
-Boring recap: 
-Arnold's difficulty eval:
-1 - 
-2 - 
-"""
 
 
 @inject_raw_input(2019, 1)
@@ -25,14 +24,10 @@ def solve_part_1(nums: List[int]):
 
 @print_return_value
 def solve_part_2(nums: List[int]):
-    def fuel_of(n: int):
-        total = 0
-        module = n
-        while True:
-            module = max(module // 3 - 2, 0)
-            if module == 0:
-                break
-            total += module
-        return total
+    def fuel_of(weight: int):
+        return (streams.iterate(weight, lambda w: w // 3 - 2)       # constantly apply the cal to the previous result
+                .skip(1)                                            # skip the initial module weight, not fuel!
+                .takewhile(lambda w: w > 0)
+                .collect(sum))
 
     return sum(fuel_of(n) for n in nums)

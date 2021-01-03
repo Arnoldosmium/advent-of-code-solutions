@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-from collections import defaultdict
-from typing import List, Union
-from streamer import streams, Stream
+from collections import defaultdict, namedtuple
+from typing import List, Union, Dict, Tuple
+from streamer import streams
 from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
 from ..utils.maths import num_in_range
 
 """
 2019 day 3
-Boring recap: 
+Boring recap: Road map intersection detection
 Arnold's difficulty eval:
-1 - 
-2 - 
+1 - Medium
+2 - Medium
 """
-# TODO: re-write
+
 
 class WireCoverage:
     def __init__(self, wire: List[str]):
@@ -22,41 +22,39 @@ class WireCoverage:
 
     def initialize(self, wire: List[str]):
         x, y = 0, 0
-        steps = 0
-        for edge in wire:
-            direction = edge[0]
-            scale = int(edge[1:])
+        step_counter = 0
+        for step in wire:
+            direction = step[0]
+            scale = int(step[1:])
             if direction in 'LR':
                 advance = ('LR'.index(direction) * 2 - 1) * scale
-                self.y_cover[y].append(((x, x + advance), steps))
+                self.y_cover[y].append(((x, x + advance), step_counter))
                 x += advance
             elif direction in 'UD':
                 advance = ('DU'.index(direction) * 2 - 1) * scale
-                self.x_cover[x].append(((y, y + advance), steps))
+                self.x_cover[x].append(((y, y + advance), step_counter))
                 y += advance
             else:
-                raise ValueError("Invalid direction %s" % edge[0])
-            steps += scale
+                raise ValueError("Invalid direction %s" % step[0])
+            step_counter += scale
 
-    def find_intersect(self, other):
-        inter = []
-        for x, y_ranges in self.x_cover.items():
-            for y_range, self_steps in y_ranges:
-                for y, x_ranges in other.y_cover.items():
-                    if num_in_range(y, y_range):
-                        for x_range, other_steps in x_ranges:
-                            if num_in_range(x, x_range):
-                                inter.append(
-                                    (x, y, self_steps + abs(x - x_range[0]) + other_steps + abs(y - y_range[0])))
-        for x, y_ranges in other.x_cover.items():
-            for y_range, other_steps in y_ranges:
-                for y, x_ranges in self.y_cover.items():
-                    if num_in_range(y, y_range):
-                        for x_range, self_steps in x_ranges:
-                            if num_in_range(x, x_range):
-                                inter.append(
-                                    (x, y, self_steps + abs(y - y_range[0]) + other_steps + abs(x - x_range[0])))
-        return inter
+    @staticmethod
+    def find_intersect_from_coverage_map(x_cover: Dict[int, List[Tuple]], y_cover: Dict[int, List[Tuple]]):
+        CoordTestTuple = namedtuple("CoordTestTuple", "x,y,x_range,y_range,steps")
+        return streams.cartesian_product_stream(x_cover.keys(), y_cover.keys()) \
+            .flat_map(lambda xy: (CoordTestTuple(
+                                    x=xy[0], y=xy[1], x_range=x_range, y_range=y_range, steps=x_steps + y_steps)
+                                  for y_range, x_steps in x_cover[xy[0]]
+                                  for x_range, y_steps in y_cover[xy[1]])) \
+            .filter(lambda ttuple: num_in_range(ttuple.x, ttuple.x_range) and num_in_range(ttuple.y, ttuple.y_range)) \
+            .map(lambda ttuple: (ttuple.x,
+                                 ttuple.y,
+                                 ttuple.steps + abs(ttuple.x - ttuple.x_range[0]) + abs(ttuple.y - ttuple.y_range[0])))\
+            .collect_as_list()
+
+    def find_intersect(self, other: 'WireCoverage'):
+        return WireCoverage.find_intersect_from_coverage_map(self.x_cover, other.y_cover) + \
+               WireCoverage.find_intersect_from_coverage_map(other.x_cover, self.y_cover)
 
 
 @inject_raw_input(2019, 3)

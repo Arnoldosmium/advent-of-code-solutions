@@ -6,10 +6,10 @@ from .common import IntCodeRunner
 
 """
 2019 day 2
-Boring recap: 
+Boring recap: Basic 10-based CPU and RAM simulation
 Arnold's difficulty eval:
-1 - 
-2 - 
+1 - Easy
+2 - Easy
 """
 
 
@@ -37,4 +37,4 @@ def solve_part_2(nums: List[int]):
             if code_runner.ram[0] == 19690720:
                 return 100 * noun + verb
 
-    raise ValueError("Can't achieve 19690720")
+    raise ValueError("Can't achieve target 19690720")
