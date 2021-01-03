@@ -2,7 +2,7 @@
 from typing import List, Union
 from streamer import streams
 from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
-from .common import int_code_runner
+from .common import IntCodeRunner
 
 """
 2019 day 5
@@ -21,13 +21,13 @@ def show_solution(raw_input: str, part: Union[int, None]):
 
 @print_return_value
 def solve_part_1(payload: List[int]):
-    _, outputs = int_code_runner(payload, [1])
+    outputs = IntCodeRunner.of(payload, [1]).run()
     print(outputs)
     return outputs[-1]
 
 
 @print_return_value
 def solve_part_2(payload: List[int]):
-    _, outputs = int_code_runner(payload, [5])
+    outputs = IntCodeRunner.of(payload, [5]).run()
     print(outputs)
     return outputs[-1]
