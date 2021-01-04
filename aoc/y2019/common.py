@@ -78,6 +78,9 @@ class RAM:
             raise ValueError("Unknown RAM address: %s" % key)
 
 
+BLOCK_FOR_INPUT = 'block_for_input'
+
+
 class IntCodeRunner:
     def __init__(self, payload: List[int]):
         self.ram = RAM(payload)
@@ -143,6 +146,8 @@ class IntCodeRunner:
             elif operation == 3:
                 to = self.ram[self.pc + 1]
                 to_mode = (self.ram[self.pc] // 100) % 10
+                if len(self.input_buffer) == 0:
+                    yield BLOCK_FOR_INPUT
                 value = self.input_buffer.pop(0)
                 self.write_with_mode(to_mode, to, value)
 
