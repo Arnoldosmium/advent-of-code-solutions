@@ -7,8 +7,8 @@ Arnold's difficulty eval:
 2 -
 """
 from collections import Counter
-from typing import Set, Union
-from streamer import streams, Stream
+from typing import Union
+from streamer import Stream
 from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
 
 WIDE, TALL = 25, 6
