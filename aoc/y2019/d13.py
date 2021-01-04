@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 2019 day 13
-Boring recap:
+Boring recap: Canvas simulation + State machine blocking + Simple state-based game decision making
 Arnold's difficulty eval:
-1 -
-2 -
+1 - Easy
+2 - Hard
 """
 from collections import defaultdict
 from typing import List, Union, Dict, Tuple

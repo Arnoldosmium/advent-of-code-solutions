@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 2019 day 11
-Boring recap:
+Boring recap: 2-D plane painting and cursor movements
 Arnold's difficulty eval:
-1 -
-2 -
+1 - Easy
+2 - Easy
 """
 from collections import defaultdict
 from typing import List, Union, Dict, Tuple

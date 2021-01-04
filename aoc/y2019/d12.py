@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
 2019 day 12
-Boring recap:
+Boring recap: Inter-object interaction simulation + vector decomposition method + lcm
 Arnold's difficulty eval:
-1 -
-2 -
+1 - Easy
+2 - Hard + Burning
 """
 from __future__ import nested_scopes
 from itertools import combinations
 from typing import Union, List, Tuple, Iterable
-from streamer import Stream, streams
+from streamer import streams
 from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
 from ..utils.maths import sign_of, lcm
 

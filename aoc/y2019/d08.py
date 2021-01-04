@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 2019 day 8
-Boring recap:
+Boring recap: 3-D info reconstruction from 1-D + 3-D coalesce to 2-D
 Arnold's difficulty eval:
-1 -
-2 -
+1 - Easy
+2 - Easy
 """
 from collections import Counter
 from typing import Union

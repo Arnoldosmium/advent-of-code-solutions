@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 2019 day 10
-Boring recap:
+Boring recap: 2-D plane points sharing a line + 360 scan
 Arnold's difficulty eval:
-1 -
-2 -
+1 - Medium
+2 - Hard
 """
 from collections import defaultdict
 from itertools import combinations
