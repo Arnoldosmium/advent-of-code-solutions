@@ -9,8 +9,8 @@ Arnold's difficulty eval:
 from collections import defaultdict
 from itertools import combinations
 from typing import List, Union, Tuple, Dict
-from streamer import streams, Stream, DictStream
-from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
+from streamer import streams, DictStream
+from ..utils import inject_raw_input, print_return_value
 from ..utils.maths import DirectionalRatio, manhattan_distance
 
 
@@ -46,11 +46,12 @@ def solve_part_2(
         ratio: sorted(point_list, key=lambda p: manhattan_distance(laser, p))
         for ratio, point_list in asteroid_vectors[laser].items()}
     counter = 0
-    full_revolution = sorted((ratio for ratio in asteroid_vector if ratio.q < 0 <= ratio.p), key=lambda ratio: -ratio.val) + \
-                      [DirectionalRatio(1, 0)] + \
-                      sorted((ratio for ratio in asteroid_vector if ratio.q > 0), key=lambda ratio: -ratio.val) + \
-                      [DirectionalRatio(-1, 0)] + \
-                      sorted((ratio for ratio in asteroid_vector if ratio.q < 0 and ratio.p < 0), key=lambda ratio: -ratio.val)
+    full_revolution = sorted((ratio for ratio in asteroid_vector if ratio.q < 0 <= ratio.p),
+                             key=lambda ratio: -ratio.val) + \
+        [DirectionalRatio(1, 0)] + \
+        sorted((ratio for ratio in asteroid_vector if ratio.q > 0), key=lambda ratio: -ratio.val) + \
+        [DirectionalRatio(-1, 0)] + \
+        sorted((ratio for ratio in asteroid_vector if ratio.q < 0 and ratio.p < 0), key=lambda ratio: -ratio.val)
     while len(asteroid_vector.keys()):
         for dratio in full_revolution:
             if dratio in asteroid_vector:

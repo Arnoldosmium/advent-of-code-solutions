@@ -2,7 +2,7 @@
 from __future__ import nested_scopes
 from typing import Iterable, Union, Tuple
 import sys
-
+from math import gcd
 
 def product(nums: Iterable[Union[int, float]]):
     prod = 1
@@ -17,14 +17,16 @@ def num_in_range(num: int, valid_range: Tuple[int, int]):
     return range_from <= num <= range_to
 
 
-def gcd(x: int, y: int):
+def lcm(x: int, y: int):
     """
-    Find greatest common divisor
+    Find least common multiple
     """
-    x, y = abs(x), abs(y)
-    while y != 0:
-        x, y = y, x % y
-    return x
+    return abs(x * y) // gcd(x, y)
+
+def sign_of(x: float) -> int:
+    if x == 0:
+        return 0
+    return int(x / abs(x))
 
 
 def manhattan_distance(point_a: Tuple, point_b: Tuple):

@@ -8,7 +8,6 @@ Arnold's difficulty eval:
 Space optimal solutions is "Medium"
 Fully functional unlimited RAM is "Medium + Hairy"
 """
-from itertools import permutations, repeat
 from typing import List, Union
 from streamer import streams
 from ..utils import inject_raw_input, print_return_value, get_sub_task_runner
